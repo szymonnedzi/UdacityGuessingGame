@@ -25,6 +25,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.android.guesstheword.R
 import com.example.android.guesstheword.databinding.GameFragmentBinding
 
@@ -72,9 +73,9 @@ class GameFragment : Fragment() {
     /**
      * Called when the game is finished
      */
-    private fun gameFinished() {
+    fun gameFinished() {
         val currentScore = viewModel.score.value ?: 0
         val action = GameFragmentDirections.actionGameToScore()
-//        findNavController(this).navigate(action)
+        findNavController(this).navigate(action)
     }
 }
