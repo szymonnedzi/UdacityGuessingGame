@@ -41,25 +41,13 @@ class GameFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // Inflate view and obtain an instance of the binding class
-        binding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.game_fragment,
-                container,
-                false
-        )
-
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         Log.i("GameFragment", "Setting up ViewModelProvider'")
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-        }
+        binding.correctButton.setOnClickListener { viewModel.onCorrect() }
 
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-        }
-
+        binding.skipButton.setOnClickListener { viewModel.onSkip() }
 
         viewModel.word.observe(this, Observer { newWord ->
             binding.wordText.text = newWord
@@ -67,15 +55,14 @@ class GameFragment : Fragment() {
         viewModel.score.observe(this, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
+        viewModel.eventGameFinish.observe(this, Observer { hasFinished ->
+            if (hasFinished) {
+                val currentScore = viewModel.score.value ?: 0
+                val action = GameFragmentDirections.actionGameToScore(currentScore)
+                findNavController(this).navigate(action)
+                viewModel.onGameFinishComplete()
+            }
+        })
         return binding.root
-    }
-
-    /**
-     * Called when the game is finished
-     */
-    fun gameFinished() {
-        val currentScore = viewModel.score.value ?: 0
-        val action = GameFragmentDirections.actionGameToScore()
-        findNavController(this).navigate(action)
     }
 }
