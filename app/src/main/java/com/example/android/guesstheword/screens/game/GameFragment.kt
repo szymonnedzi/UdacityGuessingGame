@@ -46,9 +46,10 @@ class GameFragment : Fragment() {
         Log.i("GameFragment", "Setting up ViewModelProvider'")
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        binding.correctButton.setOnClickListener { viewModel.onCorrect() }
+        binding.gameViewModel = viewModel
 
-        binding.skipButton.setOnClickListener { viewModel.onSkip() }
+//        binding.correctButton.setOnClickListener { viewModel.onCorrect() }
+//        binding.skipButton.setOnClickListener { viewModel.onSkip() }
 
         viewModel.currentTime.observe(this, Observer { newTime ->
             binding.timerText.text = DateUtils.formatElapsedTime(newTime)
