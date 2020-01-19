@@ -48,12 +48,7 @@ class ScoreFragment : Fragment() {
                 .get(ScoreViewModel::class.java)
 
         // Add observer for score
-        viewModel.score.observe(this, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-        // Get args using by navArgs property delegate
-//        binding.scoreText.text = scoreFragmentArgs.score.toString()
-//        binding.playAgainButton.setOnClickListener { onPlayAgain() }
+        viewModel.score.observe(this, Observer { newScore -> binding.scoreText.text = newScore.toString() })
         binding.scoreViewModel = viewModel
 
         // Navigates back to title when button is pressed
@@ -64,9 +59,5 @@ class ScoreFragment : Fragment() {
             }
         })
         return binding.root
-    }
-
-    private fun onPlayAgain() {
-        findNavController().navigate(ScoreFragmentDirections.actionRestart())
     }
 }
